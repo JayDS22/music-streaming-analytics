@@ -1,0 +1,113 @@
+# Music Streaming Analytics Platform Configuration
+
+# Spotify API Settings
+spotify:
+  client_id: ${SPOTIFY_CLIENT_ID}
+  client_secret: ${SPOTIFY_CLIENT_SECRET}
+  redirect_uri: "http://localhost:8888/callback"
+  scope: "user-read-recently-played user-top-read"
+
+# Database Configuration
+database:
+  host: ${DB_HOST:localhost}
+  port: ${DB_PORT:5432}
+  name: ${DB_NAME:music_analytics}
+  user: ${DB_USER:postgres}
+  password: ${DB_PASSWORD}
+  pool_size: 10
+  max_overflow: 20
+
+# Data Settings
+data:
+  raw_path: "data/raw"
+  processed_path: "data/processed"
+  interim_path: "data/interim"
+  
+  # Synthetic data generation
+  synthetic:
+    num_users: 10000
+    num_sessions: 1000000
+    num_tracks: 50000
+    num_playlists: 5000
+    seed: 42
+
+# Feature Engineering Settings
+features:
+  # Listening streaks
+  streak_gap_days: 1
+  
+  # Genre diversity
+  genre_list:
+    - pop
+    - rock
+    - hip-hop
+    - electronic
+    - jazz
+    - classical
+    - r&b
+    - country
+    - indie
+    - metal
+  
+  # Session features
+  session_timeout_minutes: 30
+  
+  # Audio feature normalization
+  normalize_audio_features: true
+
+# Model Settings
+models:
+  skip_predictor:
+    algorithm: "logistic_regression"
+    regularization: "l2"
+    C: 1.0
+    max_iter: 1000
+    class_weight: "balanced"
+    test_size: 0.2
+    random_state: 42
+    
+  session_forecaster:
+    algorithm: "linear_regression"
+    features_to_select: 20
+    test_size: 0.2
+    random_state: 42
+    cv_folds: 5
+
+# A/B Testing Settings
+ab_testing:
+  significance_level: 0.05
+  power: 0.80
+  minimum_detectable_effect: 0.05
+  minimum_sample_size: 1000
+  assignment_method: "random"
+  stratification_features:
+    - user_tier
+    - country
+
+# Analysis Settings
+analysis:
+  cohort:
+    period: "monthly"
+    retention_periods: 12
+    
+  funnel:
+    stages:
+      - playlist_start
+      - track_1_complete
+      - track_3_complete
+      - track_5_complete
+      - playlist_complete
+
+# Visualization Settings
+visualization:
+  theme: "seaborn-v0_8-whitegrid"
+  figure_size: [12, 8]
+  dpi: 100
+  color_palette: "viridis"
+
+# Logging Settings
+logging:
+  level: ${LOG_LEVEL:INFO}
+  format: "<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>"
+  rotation: "10 MB"
+  retention: "1 week"
