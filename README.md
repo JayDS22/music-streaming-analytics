@@ -1,150 +1,121 @@
 # 🎵 Music Streaming Analytics & Listener Engagement Platform
 
-A comprehensive data analytics platform for music streaming services, featuring user behavior analysis, predictive modeling, A/B testing frameworks, and interactive dashboards.
+End-to-end music streaming analytics platform featuring 50+ engineered user engagement features, skip prediction (AUC: 0.84) and session forecasting (R²: 0.79) models, cohort/funnel analysis, and an A/B testing framework with statistical significance testing—built with Python, R, SQL, and Spotify API integration.
 
 ![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)
 ![R](https://img.shields.io/badge/R-4.0+-blue.svg)
 ![SQL](https://img.shields.io/badge/SQL-PostgreSQL-blue.svg)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.29+-red.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-## 📊 Project Overview
+## 🖥️ Live Demo
 
-This platform processes **1M+ listening sessions** to extract insights about user behavior, predict engagement patterns, and optimize music recommendations through data-driven experimentation.
+**Run the interactive dashboard locally:**
 
-### Key Achievements
-- **Predictive Modeling**: Logistic regression model predicting skip behavior (AUC: 0.84)
-- **Session Forecasting**: Linear regression model forecasting session duration (R²: 0.79)
-- **Feature Engineering**: 50+ user engagement features engineered
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+Then open http://localhost:8501 in your browser.
+
+### Demo Features:
+- 🏠 **Overview**: Key metrics, user distribution, genre breakdown
+- 📈 **Engagement**: DAU/MAU trends, hourly/weekly patterns
+- 🔄 **Retention**: Cohort heatmaps, retention curves
+- ⏭️ **Skip Analysis**: Skip rates by genre, hour, energy level, funnel analysis
+- 🧪 **A/B Testing**: Interactive experiment simulation
+- 🤖 **ML Models**: Skip predictor demo with ROC curve
+
+## 📊 Key Achievements
+
+- **Predictive Modeling**: Logistic regression for skip behavior (AUC: 0.84)
+- **Session Forecasting**: Linear regression for session duration (R²: 0.79)
+- **Feature Engineering**: 50+ user engagement features
 - **Cohort Analysis**: Identified 23% drop-off in playlist completion
-- **A/B Testing**: Framework with significance testing (p<0.05) for personalized recommendations
+- **A/B Testing**: Framework with significance testing (p<0.05)
 
 ---
 
 ## 🏗️ Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│                    MUSIC STREAMING ANALYTICS PLATFORM                           │
-├─────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                 │
-│  ┌─────────────────────────────────────────────────────────────────────────┐   │
-│  │                         DATA INGESTION LAYER                             │   │
-│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐     │   │
-│  │  │  Spotify    │  │  Streaming  │  │   User      │  │  Playlist   │     │   │
-│  │  │    API      │  │   Events    │  │  Profiles   │  │   Data      │     │   │
-│  │  │  (Audio     │  │  (1M+       │  │  (Demo-     │  │  (Track     │     │   │
-│  │  │  Features)  │  │  Sessions)  │  │  graphics)  │  │  Lists)     │     │   │
-│  │  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘     │   │
-│  │         │                │                │                │            │   │
-│  │         └────────────────┴────────────────┴────────────────┘            │   │
-│  │                                    │                                     │   │
-│  └────────────────────────────────────┼─────────────────────────────────────┘   │
-│                                       ▼                                         │
-│  ┌─────────────────────────────────────────────────────────────────────────┐   │
-│  │                         DATA STORAGE LAYER                               │   │
-│  │  ┌───────────────────────────────────────────────────────────────────┐  │   │
-│  │  │                      PostgreSQL Database                          │  │   │
-│  │  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐               │  │   │
-│  │  │  │   users     │  │  sessions   │  │  tracks     │               │  │   │
-│  │  │  ├─────────────┤  ├─────────────┤  ├─────────────┤               │  │   │
-│  │  │  │ user_id     │  │ session_id  │  │ track_id    │               │  │   │
-│  │  │  │ signup_date │  │ user_id     │  │ tempo       │               │  │   │
-│  │  │  │ tier        │  │ track_id    │  │ energy      │               │  │   │
-│  │  │  │ country     │  │ duration    │  │ danceability│               │  │   │
-│  │  │  └─────────────┘  │ skipped     │  │ valence     │               │  │   │
-│  │  │                   └─────────────┘  └─────────────┘               │  │   │
-│  │  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐               │  │   │
-│  │  │  │  playlists  │  │ ab_tests    │  │ user_metrics│               │  │   │
-│  │  │  └─────────────┘  └─────────────┘  └─────────────┘               │  │   │
-│  │  └───────────────────────────────────────────────────────────────────┘  │   │
-│  └─────────────────────────────────────────────────────────────────────────┘   │
-│                                       │                                         │
-│                                       ▼                                         │
-│  ┌─────────────────────────────────────────────────────────────────────────┐   │
-│  │                      FEATURE ENGINEERING LAYER                           │   │
-│  │                                                                          │   │
-│  │  ┌─────────────────────────────────────────────────────────────────┐    │   │
-│  │  │                   50+ Engineered Features                        │    │   │
-│  │  │  ┌───────────────┐  ┌───────────────┐  ┌───────────────┐        │    │   │
-│  │  │  │   Listening   │  │    Genre      │  │   Playlist    │        │    │   │
-│  │  │  │    Streaks    │  │   Diversity   │  │   Behavior    │        │    │   │
-│  │  │  │  • streak_len │  │  • entropy    │  │  • completion │        │    │   │
-│  │  │  │  • max_streak │  │  • variety    │  │  • skip_rate  │        │    │   │
-│  │  │  │  • consistency│  │  • exploration│  │  • engagement │        │    │   │
-│  │  │  └───────────────┘  └───────────────┘  └───────────────┘        │    │   │
-│  │  │  ┌───────────────┐  ┌───────────────┐  ┌───────────────┐        │    │   │
-│  │  │  │   Session     │  │   Temporal    │  │    Audio      │        │    │   │
-│  │  │  │   Features    │  │   Patterns    │  │   Features    │        │    │   │
-│  │  │  │  • duration   │  │  • time_of_day│  │  • tempo_pref │        │    │   │
-│  │  │  │  • track_count│  │  • weekday    │  │  • energy_avg │        │    │   │
-│  │  │  │  • skip_ratio │  │  • seasonality│  │  • valence_var│        │    │   │
-│  │  │  └───────────────┘  └───────────────┘  └───────────────┘        │    │   │
-│  │  └─────────────────────────────────────────────────────────────────┘    │   │
-│  └─────────────────────────────────────────────────────────────────────────┘   │
-│                                       │                                         │
-│                                       ▼                                         │
-│  ┌─────────────────────────────────────────────────────────────────────────┐   │
-│  │                        ANALYTICS & ML LAYER                              │   │
-│  │                                                                          │   │
-│  │  ┌───────────────────────┐    ┌───────────────────────┐                 │   │
-│  │  │   PREDICTIVE MODELS   │    │   STATISTICAL ANALYSIS │                │   │
-│  │  │  ┌─────────────────┐  │    │  ┌─────────────────┐   │                │   │
-│  │  │  │ Skip Prediction │  │    │  │  Cohort Analysis │   │                │   │
-│  │  │  │ (Logistic Reg.) │  │    │  │  • Retention     │   │                │   │
-│  │  │  │   AUC: 0.84     │  │    │  │  • Engagement    │   │                │   │
-│  │  │  └─────────────────┘  │    │  │  • Churn         │   │                │   │
-│  │  │  ┌─────────────────┐  │    │  └─────────────────┘   │                │   │
-│  │  │  │ Session Duration│  │    │  ┌─────────────────┐   │                │   │
-│  │  │  │ (Linear Reg.)   │  │    │  │  Funnel Analysis │   │                │   │
-│  │  │  │   R²: 0.79      │  │    │  │  • 23% Drop-off  │   │                │   │
-│  │  │  └─────────────────┘  │    │  │  • Conversion    │   │                │   │
-│  │  └───────────────────────┘    │  └─────────────────┘   │                │   │
-│  │                               └───────────────────────┘                 │   │
-│  │  ┌─────────────────────────────────────────────────────────────────┐   │   │
-│  │  │                     A/B TESTING FRAMEWORK                        │   │   │
-│  │  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐              │   │   │
-│  │  │  │  Experiment │  │  Statistical│  │   Results   │              │   │   │
-│  │  │  │   Design    │  │   Testing   │  │   Analysis  │              │   │   │
-│  │  │  │  • Sample   │  │  • t-test   │  │  • Effect   │              │   │   │
-│  │  │  │    Size     │  │  • chi-sq   │  │    Size     │              │   │   │
-│  │  │  │  • Random   │  │  • p<0.05   │  │  • CI       │              │   │   │
-│  │  │  │    Assign   │  │  • FDR      │  │  • Power    │              │   │   │
-│  │  │  └─────────────┘  └─────────────┘  └─────────────┘              │   │   │
-│  │  └─────────────────────────────────────────────────────────────────┘   │   │
-│  └─────────────────────────────────────────────────────────────────────────┘   │
-│                                       │                                         │
-│                                       ▼                                         │
-│  ┌─────────────────────────────────────────────────────────────────────────┐   │
-│  │                       VISUALIZATION LAYER                                │   │
-│  │  ┌───────────────────────┐    ┌───────────────────────┐                 │   │
-│  │  │   TABLEAU DASHBOARDS  │    │    PYTHON/R REPORTS   │                 │   │
-│  │  │  • DAU/MAU Metrics    │    │  • Statistical Reports│                 │   │
-│  │  │  • Retention Curves   │    │  • Model Performance  │                 │   │
-│  │  │  • Skip Rate Analysis │    │  • Feature Importance │                 │   │
-│  │  │  • Cohort Heatmaps    │    │  • A/B Test Results   │                 │   │
-│  │  └───────────────────────┘    └───────────────────────┘                 │   │
-│  └─────────────────────────────────────────────────────────────────────────┘   │
-│                                                                                 │
-└─────────────────────────────────────────────────────────────────────────────────┘
-
-                              DATA FLOW DIAGRAM
-
-    ┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-    │   Extract    │────▶│   Transform  │────▶│     Load     │────▶│   Analyze    │
-    │  (Spotify    │     │  (Feature    │     │  (PostgreSQL │     │  (ML Models  │
-    │   API +      │     │  Engineering │     │   + Parquet) │     │   + Stats)   │
-    │   Events)    │     │   Pipeline)  │     │              │     │              │
-    └──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘
-           │                    │                    │                    │
-           ▼                    ▼                    ▼                    ▼
-    ┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-    │ Audio        │     │ 50+ Features │     │ Optimized    │     │ Predictions  │
-    │ Features:    │     │ • Streaks    │     │ Storage      │     │ • Skip Prob  │
-    │ • Tempo      │     │ • Diversity  │     │ • Indexed    │     │ • Duration   │
-    │ • Energy     │     │ • Behavior   │     │ • Partitioned│     │ • Engagement │
-    │ • Danceabil. │     │ • Session    │     │ • Compressed │     │ • Retention  │
-    │ • Valence    │     │ • Temporal   │     │              │     │              │
-    └──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    MUSIC STREAMING ANALYTICS PLATFORM                        │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │                         DATA INGESTION LAYER                          │  │
+│  │  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐          │  │
+│  │  │ Spotify   │  │ Streaming │  │   User    │  │ Playlist  │          │  │
+│  │  │   API     │  │  Events   │  │ Profiles  │  │   Data    │          │  │
+│  │  │ (Audio    │  │  (1M+     │  │ (Demo-    │  │ (Track    │          │  │
+│  │  │ Features) │  │ Sessions) │  │ graphics) │  │  Lists)   │          │  │
+│  │  └─────┬─────┘  └─────┬─────┘  └─────┬─────┘  └─────┬─────┘          │  │
+│  │        └──────────────┴──────────────┴──────────────┘                │  │
+│  └───────────────────────────────────┬───────────────────────────────────┘  │
+│                                      ▼                                       │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │                         DATA STORAGE LAYER                            │  │
+│  │  ┌─────────────────────────────────────────────────────────────────┐  │  │
+│  │  │                      PostgreSQL Database                        │  │  │
+│  │  │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐        │  │  │
+│  │  │  │  users   │  │ sessions │  │  tracks  │  │playlists │        │  │  │
+│  │  │  │ user_id  │  │session_id│  │ track_id │  │playlist_id│       │  │  │
+│  │  │  │ tier     │  │ user_id  │  │ tempo    │  │ user_id  │        │  │  │
+│  │  │  │ country  │  │ skipped  │  │ energy   │  │ tracks   │        │  │  │
+│  │  │  └──────────┘  └──────────┘  └──────────┘  └──────────┘        │  │  │
+│  │  └─────────────────────────────────────────────────────────────────┘  │  │
+│  └───────────────────────────────────┬───────────────────────────────────┘  │
+│                                      ▼                                       │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │                    FEATURE ENGINEERING LAYER (50+ Features)           │  │
+│  │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐     │  │
+│  │  │  Listening  │ │   Genre     │ │  Playlist   │ │  Temporal   │     │  │
+│  │  │   Streaks   │ │  Diversity  │ │  Behavior   │ │  Patterns   │     │  │
+│  │  │ •streak_len │ │ •entropy    │ │ •completion │ │ •time_of_day│     │  │
+│  │  │ •max_streak │ │ •variety    │ │ •skip_rate  │ │ •weekday    │     │  │
+│  │  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘     │  │
+│  │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐     │  │
+│  │  │   Session   │ │   Audio     │ │ Engagement  │ │ Demographic │     │  │
+│  │  │  Features   │ │ Preferences │ │   Score     │ │  Features   │     │  │
+│  │  │ •duration   │ │ •tempo_pref │ │ •recency    │ │ •tier       │     │  │
+│  │  │ •frequency  │ │ •energy_avg │ │ •frequency  │ │ •country    │     │  │
+│  │  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘     │  │
+│  └───────────────────────────────────┬───────────────────────────────────┘  │
+│                                      ▼                                       │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │                      ANALYTICS & ML LAYER                             │  │
+│  │  ┌─────────────────────┐      ┌─────────────────────┐                │  │
+│  │  │  PREDICTIVE MODELS  │      │ STATISTICAL ANALYSIS│                │  │
+│  │  │ ┌─────────────────┐ │      │ ┌─────────────────┐ │                │  │
+│  │  │ │ Skip Prediction │ │      │ │ Cohort Analysis │ │                │  │
+│  │  │ │ Logistic Reg.   │ │      │ │ • Retention     │ │                │  │
+│  │  │ │ AUC: 0.84       │ │      │ │ • Churn         │ │                │  │
+│  │  │ └─────────────────┘ │      │ └─────────────────┘ │                │  │
+│  │  │ ┌─────────────────┐ │      │ ┌─────────────────┐ │                │  │
+│  │  │ │Session Duration │ │      │ │ Funnel Analysis │ │                │  │
+│  │  │ │ Linear Reg.     │ │      │ │ • 23% Drop-off  │ │                │  │
+│  │  │ │ R²: 0.79        │ │      │ │ • Conversion    │ │                │  │
+│  │  │ └─────────────────┘ │      │ └─────────────────┘ │                │  │
+│  │  └─────────────────────┘      └─────────────────────┘                │  │
+│  │  ┌───────────────────────────────────────────────────────────────┐   │  │
+│  │  │                   A/B TESTING FRAMEWORK                       │   │  │
+│  │  │  • Experiment Design    • Statistical Testing (p<0.05)        │   │  │
+│  │  │  • Random Assignment    • Effect Size & Confidence Intervals  │   │  │
+│  │  └───────────────────────────────────────────────────────────────┘   │  │
+│  └───────────────────────────────────┬───────────────────────────────────┘  │
+│                                      ▼                                       │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │                       VISUALIZATION LAYER                             │  │
+│  │  ┌───────────────────────┐    ┌───────────────────────┐              │  │
+│  │  │   TABLEAU DASHBOARDS  │    │    PYTHON/R REPORTS   │              │  │
+│  │  │  • DAU/MAU Metrics    │    │  • Statistical Reports│              │  │
+│  │  │  • Retention Curves   │    │  • Model Performance  │              │  │
+│  │  │  • Skip Rate Analysis │    │  • A/B Test Results   │              │  │
+│  │  └───────────────────────┘    └───────────────────────┘              │  │
+│  └───────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -153,329 +124,111 @@ This platform processes **1M+ listening sessions** to extract insights about use
 
 ```
 music-streaming-analytics/
-├── README.md                          # This file
+├── README.md                          # Documentation
 ├── requirements.txt                   # Python dependencies
-├── environment.yml                    # Conda environment
 ├── setup.py                          # Package setup
-├── .env.example                      # Environment variables template
+├── main.py                           # Entry point
+├── .env.example                      # Environment template
 ├── config/
-│   └── config.yaml                   # Configuration settings
+│   └── config.yaml                   # Configuration
 ├── src/
-│   ├── __init__.py
 │   ├── api/
-│   │   ├── __init__.py
 │   │   └── spotify_client.py         # Spotify API integration
 │   ├── data/
-│   │   ├── __init__.py
 │   │   ├── data_generator.py         # Synthetic data generation
 │   │   └── data_loader.py            # Data loading utilities
 │   ├── features/
-│   │   ├── __init__.py
-│   │   └── feature_engineering.py    # 50+ feature engineering
+│   │   └── feature_engineering.py    # 50+ features
 │   ├── models/
-│   │   ├── __init__.py
-│   │   ├── skip_predictor.py         # Skip behavior prediction
-│   │   └── session_forecaster.py     # Session duration forecast
+│   │   ├── skip_predictor.py         # Skip behavior model
+│   │   └── session_forecaster.py     # Session duration model
 │   ├── analysis/
-│   │   ├── __init__.py
 │   │   ├── cohort_analysis.py        # Cohort analysis
 │   │   └── funnel_analysis.py        # Funnel analysis
 │   ├── ab_testing/
-│   │   ├── __init__.py
 │   │   └── ab_framework.py           # A/B testing framework
 │   ├── visualization/
-│   │   ├── __init__.py
 │   │   └── dashboard_generator.py    # Dashboard generation
 │   └── utils/
-│       ├── __init__.py
-│       └── helpers.py                # Utility functions
+│       └── helpers.py                # Utilities
 ├── sql/
 │   ├── schema.sql                    # Database schema
 │   └── queries.sql                   # Analytics queries
 ├── r_scripts/
-│   ├── cohort_analysis.R             # R cohort analysis
-│   ├── ab_testing.R                  # R A/B testing
-│   └── visualization.R               # R visualizations
+│   ├── cohort_analysis.R
+│   ├── ab_testing.R
+│   └── visualization.R
 ├── tests/
-│   ├── __init__.py
 │   ├── test_features.py
 │   ├── test_models.py
 │   └── test_ab_testing.py
-├── notebooks/
-│   └── exploratory_analysis.ipynb    # EDA notebook
-├── dashboards/
-│   └── tableau_template.twb          # Tableau dashboard
-├── data/
-│   ├── raw/                          # Raw data
-│   ├── processed/                    # Processed data
-│   └── interim/                      # Intermediate data
-└── docs/
-    └── api_documentation.md          # API documentation
+└── data/
+    ├── raw/
+    ├── processed/
+    └── interim/
 ```
 
 ---
 
 ## 🚀 Quick Start
 
-### Prerequisites
-
-- Python 3.9+
-- R 4.0+
-- PostgreSQL 13+
-- Spotify Developer Account (for API access)
-
 ### Installation
 
-1. **Clone the repository**
 ```bash
+# Clone repository
 git clone https://github.com/yourusername/music-streaming-analytics.git
 cd music-streaming-analytics
-```
 
-2. **Create virtual environment**
-```bash
+# Create virtual environment
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+source venv/bin/activate  # Windows: venv\Scripts\activate
 
-3. **Install dependencies**
-```bash
+# Install dependencies
 pip install -r requirements.txt
-```
 
-4. **Configure environment**
-```bash
+# Configure environment
 cp .env.example .env
-# Edit .env with your Spotify API credentials
+# Edit .env with your Spotify credentials (optional)
 ```
 
-5. **Initialize database**
-```bash
-psql -U postgres -f sql/schema.sql
-```
-
-6. **Generate sample data (optional)**
-```bash
-python -m src.data.data_generator --sessions 1000000
-```
-
-### Running the Pipeline
+### Run Pipeline
 
 ```bash
-# Full pipeline
+# Full pipeline with synthetic data
 python main.py --full-pipeline
 
-# Individual components
-python main.py --extract-features
-python main.py --train-models
-python main.py --run-analysis
-python main.py --generate-dashboards
+# Custom data size
+python main.py --sessions 1000000 --users 10000
+
+# Run tests
+pytest tests/ -v
 ```
 
 ---
 
-## 📊 Features
-
-### Data Ingestion
-- **Spotify API Integration**: Extract audio features (tempo, energy, danceability, valence)
-- **Event Processing**: Handle 1M+ listening sessions
-- **Real-time Updates**: Streaming data support
-
-### Feature Engineering (50+ Features)
+## 📊 Features Engineering (50+)
 
 | Category | Features |
 |----------|----------|
-| **Listening Streaks** | streak_length, max_streak, streak_consistency, active_days |
-| **Genre Diversity** | genre_entropy, genre_variety, exploration_ratio |
-| **Playlist Behavior** | completion_rate, skip_rate, engagement_score |
-| **Session Metrics** | avg_duration, track_count, time_to_skip |
-| **Temporal Patterns** | time_of_day, weekday_preference, seasonality |
-| **Audio Preferences** | tempo_preference, energy_avg, valence_variance |
-
-### Predictive Models
-
-#### Skip Behavior Prediction
-- **Algorithm**: Logistic Regression with L2 regularization
-- **Performance**: AUC-ROC = 0.84
-- **Key Features**: audio energy, user engagement history, time of day
-
-#### Session Duration Forecasting
-- **Algorithm**: Linear Regression with feature selection
-- **Performance**: R² = 0.79
-- **Key Features**: user tier, historical session length, playlist type
-
-### Analytics
-
-#### Cohort Analysis
-- User retention by signup cohort
-- Engagement patterns over time
-- Churn prediction indicators
-
-#### Funnel Analysis
-- Playlist completion funnel
-- **Finding**: 23% drop-off identified at track 3-5
-- Recommendation optimization points
-
-### A/B Testing Framework
-- Experiment design with power analysis
-- Random user assignment
-- Statistical significance testing (p<0.05)
-- Effect size and confidence intervals
-- Automated reporting
-
----
-
-## 🛠️ Usage Examples
-
-### Feature Engineering
-```python
-from src.features.feature_engineering import FeatureEngineer
-
-engineer = FeatureEngineer()
-features = engineer.create_all_features(sessions_df, users_df, tracks_df)
-print(f"Generated {len(features.columns)} features")
-```
-
-### Skip Prediction
-```python
-from src.models.skip_predictor import SkipPredictor
-
-model = SkipPredictor()
-model.train(X_train, y_train)
-predictions = model.predict_proba(X_test)
-print(f"AUC-ROC: {model.evaluate(X_test, y_test)}")
-```
-
-### A/B Testing
-```python
-from src.ab_testing.ab_framework import ABTestFramework
-
-ab = ABTestFramework()
-ab.create_experiment(
-    name="personalized_recommendations_v2",
-    control_group=control_users,
-    treatment_group=treatment_users
-)
-results = ab.analyze_results(metric="listen_through_rate")
-print(f"P-value: {results['p_value']:.4f}")
-```
-
-### Cohort Analysis
-```python
-from src.analysis.cohort_analysis import CohortAnalyzer
-
-analyzer = CohortAnalyzer()
-retention_matrix = analyzer.calculate_retention(users_df, sessions_df)
-analyzer.plot_retention_heatmap(retention_matrix)
-```
-
----
-
-## 📈 Dashboard Metrics
-
-The Tableau dashboards track:
-
-- **DAU/MAU**: Daily and Monthly Active Users
-- **Retention Curves**: User retention over time
-- **Skip Rates**: By genre, time of day, user segment
-- **Engagement Metrics**: Session duration, tracks per session
-- **A/B Test Monitors**: Live experiment tracking
+| **Listening Streaks** | current_streak, max_streak, avg_streak, streak_count, active_days |
+| **Genre Diversity** | genre_entropy, genre_count, top_genre_ratio, exploration_rate |
+| **Playlist Behavior** | completion_rate, skip_rate, playlist_session_ratio |
+| **Session Metrics** | avg_duration, track_count, listen_ratio, total_hours |
+| **Temporal Patterns** | morning_ratio, evening_ratio, weekend_ratio, peak_hour |
+| **Audio Preferences** | tempo_pref, energy_avg, valence_variance, acousticness_pref |
+| **Engagement** | days_since_last_listen, avg_daily_sessions, engagement_score |
 
 ---
 
 ## 🧪 Testing
 
 ```bash
-# Run all tests
-pytest tests/ -v
-
-# Run with coverage
-pytest tests/ --cov=src --cov-report=html
-
-# Run specific test module
-pytest tests/test_models.py -v
+pytest tests/ -v                    # Run all tests
+pytest tests/ --cov=src            # With coverage
 ```
-
----
-
-## 📝 SQL Queries
-
-Key analytics queries are provided in `sql/queries.sql`:
-
-- User engagement metrics
-- Retention calculations
-- Skip rate analysis
-- Cohort aggregations
-- Funnel stage analysis
-
----
-
-## 📊 R Analysis
-
-R scripts provide additional statistical analysis:
-
-```r
-# Run cohort analysis
-Rscript r_scripts/cohort_analysis.R
-
-# Run A/B testing analysis
-Rscript r_scripts/ab_testing.R
-```
-
----
-
-## 🔧 Configuration
-
-Edit `config/config.yaml`:
-
-```yaml
-spotify:
-  client_id: ${SPOTIFY_CLIENT_ID}
-  client_secret: ${SPOTIFY_CLIENT_SECRET}
-
-database:
-  host: localhost
-  port: 5432
-  name: music_analytics
-
-models:
-  skip_predictor:
-    regularization: l2
-    C: 1.0
-  session_forecaster:
-    features_to_select: 20
-
-ab_testing:
-  significance_level: 0.05
-  minimum_sample_size: 1000
-```
-
----
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file.
-
----
-
-## 📞 Contact
-
-For questions or collaboration, please open an issue or reach out.
-
----
-
-## 🙏 Acknowledgments
-
-- Spotify Web API for audio feature extraction
-- scikit-learn for ML implementations
-- Tableau for visualization capabilities
+MIT License - see [LICENSE](LICENSE) file.

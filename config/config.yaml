@@ -1,0 +1,29 @@
+# Music Streaming Analytics Configuration
+
+spotify:
+  client_id: ${SPOTIFY_CLIENT_ID}
+  client_secret: ${SPOTIFY_CLIENT_SECRET}
+
+database:
+  host: localhost
+  port: 5432
+  name: music_analytics
+
+data:
+  raw_path: data/raw
+  processed_path: data/processed
+
+models:
+  skip_predictor:
+    C: 1.0
+    class_weight: balanced
+  session_forecaster:
+    model_type: ridge
+    n_features: 20
+
+ab_testing:
+  significance_level: 0.05
+  power: 0.80
+
+logging:
+  level: INFO
