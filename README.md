@@ -1,4 +1,4 @@
-# 🎵 Music Streaming Analytics & Listener Engagement Platform
+# Music Streaming Analytics & Listener Engagement Platform
 
 End-to-end music streaming analytics platform featuring 50+ engineered user engagement features, skip prediction (AUC: 0.84) and session forecasting (R²: 0.79) models, cohort/funnel analysis, and an A/B testing framework with statistical significance testing—built with Python, R, SQL, and Spotify API integration.
 
@@ -8,7 +8,7 @@ End-to-end music streaming analytics platform featuring 50+ engineered user enga
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.29+-red.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-## 🖥️ Live Demo
+## Live Demo
 
 **Run the interactive dashboard locally:**
 
@@ -20,14 +20,14 @@ streamlit run app.py
 Then open http://localhost:8501 in your browser.
 
 ### Demo Features:
-- 🏠 **Overview**: Key metrics, user distribution, genre breakdown
-- 📈 **Engagement**: DAU/MAU trends, hourly/weekly patterns
-- 🔄 **Retention**: Cohort heatmaps, retention curves
-- ⏭️ **Skip Analysis**: Skip rates by genre, hour, energy level, funnel analysis
-- 🧪 **A/B Testing**: Interactive experiment simulation
-- 🤖 **ML Models**: Skip predictor demo with ROC curve
+- **Overview**: Key metrics, user distribution, genre breakdown
+- **Engagement**: DAU/MAU trends, hourly/weekly patterns
+- **Retention**: Cohort heatmaps, retention curves
+- **Skip Analysis**: Skip rates by genre, hour, energy level, funnel analysis
+- **A/B Testing**: Interactive experiment simulation
+- **ML Models**: Skip predictor demo with ROC curve
 
-## 📊 Key Achievements
+## Key Achievements
 
 - **Predictive Modeling**: Logistic regression for skip behavior (AUC: 0.84)
 - **Session Forecasting**: Linear regression for session duration (R²: 0.79)
@@ -37,90 +37,40 @@ Then open http://localhost:8501 in your browser.
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                    MUSIC STREAMING ANALYTICS PLATFORM                        │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                              │
-│  ┌───────────────────────────────────────────────────────────────────────┐  │
-│  │                         DATA INGESTION LAYER                          │  │
-│  │  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐          │  │
-│  │  │ Spotify   │  │ Streaming │  │   User    │  │ Playlist  │          │  │
-│  │  │   API     │  │  Events   │  │ Profiles  │  │   Data    │          │  │
-│  │  │ (Audio    │  │  (1M+     │  │ (Demo-    │  │ (Track    │          │  │
-│  │  │ Features) │  │ Sessions) │  │ graphics) │  │  Lists)   │          │  │
-│  │  └─────┬─────┘  └─────┬─────┘  └─────┬─────┘  └─────┬─────┘          │  │
-│  │        └──────────────┴──────────────┴──────────────┘                │  │
-│  └───────────────────────────────────┬───────────────────────────────────┘  │
-│                                      ▼                                       │
-│  ┌───────────────────────────────────────────────────────────────────────┐  │
-│  │                         DATA STORAGE LAYER                            │  │
-│  │  ┌─────────────────────────────────────────────────────────────────┐  │  │
-│  │  │                      PostgreSQL Database                        │  │  │
-│  │  │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐        │  │  │
-│  │  │  │  users   │  │ sessions │  │  tracks  │  │playlists │        │  │  │
-│  │  │  │ user_id  │  │session_id│  │ track_id │  │playlist_id│       │  │  │
-│  │  │  │ tier     │  │ user_id  │  │ tempo    │  │ user_id  │        │  │  │
-│  │  │  │ country  │  │ skipped  │  │ energy   │  │ tracks   │        │  │  │
-│  │  │  └──────────┘  └──────────┘  └──────────┘  └──────────┘        │  │  │
-│  │  └─────────────────────────────────────────────────────────────────┘  │  │
-│  └───────────────────────────────────┬───────────────────────────────────┘  │
-│                                      ▼                                       │
-│  ┌───────────────────────────────────────────────────────────────────────┐  │
-│  │                    FEATURE ENGINEERING LAYER (50+ Features)           │  │
-│  │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐     │  │
-│  │  │  Listening  │ │   Genre     │ │  Playlist   │ │  Temporal   │     │  │
-│  │  │   Streaks   │ │  Diversity  │ │  Behavior   │ │  Patterns   │     │  │
-│  │  │ •streak_len │ │ •entropy    │ │ •completion │ │ •time_of_day│     │  │
-│  │  │ •max_streak │ │ •variety    │ │ •skip_rate  │ │ •weekday    │     │  │
-│  │  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘     │  │
-│  │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐     │  │
-│  │  │   Session   │ │   Audio     │ │ Engagement  │ │ Demographic │     │  │
-│  │  │  Features   │ │ Preferences │ │   Score     │ │  Features   │     │  │
-│  │  │ •duration   │ │ •tempo_pref │ │ •recency    │ │ •tier       │     │  │
-│  │  │ •frequency  │ │ •energy_avg │ │ •frequency  │ │ •country    │     │  │
-│  │  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘     │  │
-│  └───────────────────────────────────┬───────────────────────────────────┘  │
-│                                      ▼                                       │
-│  ┌───────────────────────────────────────────────────────────────────────┐  │
-│  │                      ANALYTICS & ML LAYER                             │  │
-│  │  ┌─────────────────────┐      ┌─────────────────────┐                │  │
-│  │  │  PREDICTIVE MODELS  │      │ STATISTICAL ANALYSIS│                │  │
-│  │  │ ┌─────────────────┐ │      │ ┌─────────────────┐ │                │  │
-│  │  │ │ Skip Prediction │ │      │ │ Cohort Analysis │ │                │  │
-│  │  │ │ Logistic Reg.   │ │      │ │ • Retention     │ │                │  │
-│  │  │ │ AUC: 0.84       │ │      │ │ • Churn         │ │                │  │
-│  │  │ └─────────────────┘ │      │ └─────────────────┘ │                │  │
-│  │  │ ┌─────────────────┐ │      │ ┌─────────────────┐ │                │  │
-│  │  │ │Session Duration │ │      │ │ Funnel Analysis │ │                │  │
-│  │  │ │ Linear Reg.     │ │      │ │ • 23% Drop-off  │ │                │  │
-│  │  │ │ R²: 0.79        │ │      │ │ • Conversion    │ │                │  │
-│  │  │ └─────────────────┘ │      │ └─────────────────┘ │                │  │
-│  │  └─────────────────────┘      └─────────────────────┘                │  │
-│  │  ┌───────────────────────────────────────────────────────────────┐   │  │
-│  │  │                   A/B TESTING FRAMEWORK                       │   │  │
-│  │  │  • Experiment Design    • Statistical Testing (p<0.05)        │   │  │
-│  │  │  • Random Assignment    • Effect Size & Confidence Intervals  │   │  │
-│  │  └───────────────────────────────────────────────────────────────┘   │  │
-│  └───────────────────────────────────┬───────────────────────────────────┘  │
-│                                      ▼                                       │
-│  ┌───────────────────────────────────────────────────────────────────────┐  │
-│  │                       VISUALIZATION LAYER                             │  │
-│  │  ┌───────────────────────┐    ┌───────────────────────┐              │  │
-│  │  │   TABLEAU DASHBOARDS  │    │    PYTHON/R REPORTS   │              │  │
-│  │  │  • DAU/MAU Metrics    │    │  • Statistical Reports│              │  │
-│  │  │  • Retention Curves   │    │  • Model Performance  │              │  │
-│  │  │  • Skip Rate Analysis │    │  • A/B Test Results   │              │  │
-│  │  └───────────────────────┘    └───────────────────────┘              │  │
-│  └───────────────────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart LR
+    classDef ingest fill:#1d2a3a,stroke:#58a6ff,stroke-width:2px,color:#e6edf3
+    classDef store fill:#1a1a2e,stroke:#e94560,stroke-width:2px,color:#e6edf3
+    classDef compute fill:#1f2a23,stroke:#3fb950,stroke-width:2px,color:#e6edf3
+    classDef output fill:#2a2520,stroke:#c9a227,stroke-width:2px,color:#e6edf3
+
+    A[Ingestion<br/>Spotify API · 1M+ events<br/>profiles · playlists]:::ingest
+    B[(PostgreSQL<br/>users · sessions · tracks · playlists)]:::store
+    C[Feature Engineering<br/>50+ signals · 8 families]:::compute
+    D[Predictive Models<br/>Skip AUC 0.84 · Duration R² 0.79]:::compute
+    E[Cohort & Funnel Analysis<br/>retention · churn · 23% drop-off]:::compute
+    F[A/B Testing<br/>p<0.05 · effect size · CI]:::compute
+    G[Tableau Dashboards]:::output
+    H[Python/R Reports]:::output
+
+    A --> B --> C
+    C --> D & E & F
+    D --> G
+    E --> G
+    F --> H
+
+    click B href "sql/schema.sql" "Schema"
+    click C href "src/features" "Feature engineering"
+    click D href "src/models" "Models"
+    click E href "src/analysis" "Analytics"
+    click F href "src/ab_testing" "A/B framework"
 ```
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 music-streaming-analytics/
@@ -170,7 +120,7 @@ music-streaming-analytics/
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Installation
 
@@ -206,7 +156,7 @@ pytest tests/ -v
 
 ---
 
-## 📊 Features Engineering (50+)
+## Features Engineering (50+)
 
 | Category | Features |
 |----------|----------|
@@ -220,7 +170,7 @@ pytest tests/ -v
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ```bash
 pytest tests/ -v                    # Run all tests
@@ -229,6 +179,6 @@ pytest tests/ --cov=src            # With coverage
 
 ---
 
-## 📄 License
+## License
 
 MIT License - see [LICENSE](LICENSE) file.
